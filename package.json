@@ -1,0 +1,47 @@
+{
+  "name": "app",
+  "main": "index.html",
+  "description": "test nw.js app",
+  "version": "0.0.1",
+  "scripts": {
+    "dist": "build --tasks win-x64 --mirror https://npm.taobao.org/mirrors/nwjs/ .",
+    "start": "run --x86 --mirror https://npm.taobao.org/mirrors/nwjs/ ."
+  },
+  "license": "MIT",
+  "repository": "",
+  "single-instance": true,
+  "build": {
+    "appId": "sf.fe.all-embracing.project",
+    "packed": true,
+    "targets": [
+      "zip",
+      "nsis7z"
+    ],
+    "strippedProperties": [
+      "build"
+    ],
+    "outputPattern": "${NAME} ${VERSION} ${PLATFORM} ${ARCH}",
+    "win": {
+      "productName": "万象集",
+      "companyName": "sf",
+      "copyright": "",
+      "icon": "./assets/all.ico"
+    }
+  },
+  "window": {
+    "icon": "./assets/all.png",
+    "toolbar": true,
+    "min_width": 800,
+    "min_height": 500,
+    "single-instance": false
+  },
+  "devDependencies": {
+    "nwjs-builder-phoenix": "^1.14.8"
+  },
+  "dependencies": {
+    "iconv-lite": "^0.4.24",
+    "mutable-buffer": "^2.1.1",
+    "printer": "^0.2.2",
+    "sprintf-js": "^1.1.1"
+  }
+}

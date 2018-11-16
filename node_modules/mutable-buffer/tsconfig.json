@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "declaration": true,
+    "sourceMap": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./lib",
+    "preserveConstEnums": true,
+    "removeComments": true,
+    "lib": ["es2017", "dom"],
+    "target": "es6"
+  },
+  "include": [
+    "src/index.ts", "src/**/*"],
+  "exclude": ["node_modules"]
+}
