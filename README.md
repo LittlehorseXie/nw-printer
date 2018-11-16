@@ -40,7 +40,12 @@ source ~/.bash_profile
 `无需再npm i`，在文件夹下执行
 nw .
 
-## 3. 目录结构
+## 3. 打包
+
+使用 `nwjs-builder-phoenix` 打包，目前只能生成windows版本
+
+
+## 4. 目录结构
 ```
 |-- assets ---------- logo文件
 |-- node_modules ---- 依赖包，除了npm install之外，还对printer做了特殊处理
@@ -50,7 +55,7 @@ nw .
 |-- package.json
 ```
 
-## 4. 整个项目心得体会
+## 5. 整个项目心得体会
 
 1. nw 环境配置
 

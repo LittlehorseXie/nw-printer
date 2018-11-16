@@ -6,7 +6,6 @@
   </head>
   <body>
     <iframe id="frame" width="100%" height="100%" scrolling="no" frameborder="0" src="http://wmhubic.sf-express.com/manage/login?url=/pages/merchant/list" frameborder="0"></iframe>
-    <!-- <iframe id="frame" width="100%" height="100%" scrolling="no" frameborder="0" src="http://10.188.60.148:8924/manage/login?url=/" frameborder="0"></iframe> -->
     <script>
       var win = nw.Window.get()
       var frame = document.getElementById('frame')
@@ -58,13 +57,11 @@
           }
           let indexList = [0]
           for (var i = 10; i < charList.length; i++) {
-            console.log(charList[i] % 20)
             if(charList[i] % 22 >= 0 && charList[i] % 22 < 2 && !(charList[i+1] && charList[i+1] % 22 >= 0 && charList[i+1] % 22 < 2)) {
               indexList.push(i)
             }
           }
           setThreeColText(data.num, data.name.slice(0, indexList[1]), `￥${data.price}`)
-          console.log(indexList)
           console.log(data.name.slice(0, indexList[1]))
           if (indexList.length === 2) {
             setThreeColText('', data.name.slice(indexList[1]), '')
