@@ -5,7 +5,8 @@
     <title>万象集</title>
   </head>
   <body>
-    <iframe id="frame" width="100%" height="100%" scrolling="no" frameborder="0" src="http://wmhubic.sf-express.com/manage/login?url=/pages/merchant/list" frameborder="0"></iframe>
+    <iframe id="frame" width="100%" height="100%" scrolling="no" frameborder="0" frameborder="0"
+      src="http://wmhubic.sf-express.com/manage/login?url=/pages/merchant/list"></iframe>
     <script>
       var win = nw.Window.get()
       var frame = document.getElementById('frame')
@@ -13,210 +14,73 @@
       win.on('resize', function(){
         frame.height = win.height
       })
-
-      document.cookie = 'user = 111'
-      console.log(document.cookie)
-      var pkg = require('./package.json')
-      console.log(pkg.version)
-
-      const printer = require('printer')
-      const printerList = printer.getPrinters()
-      console.log(printerList)
-      var Command = require('./command')
-      var iconv = require('iconv-lite')
-      var sprintf = require('sprintf-js').sprintf
-      var MutableBuffer = require('mutable-buffer').MutableBuffer
-      var buffer = new MutableBuffer()
-      var middleCharLen = 22
-     
-
-      function getChnCount(str) {
-        return str.replace(/[\u0391-\uFFE5]/g, 'aa').length - str.length
-      }
-      function setThreeColText(l, m, r) {
-        const chnLen = getChnCount(m)
-        const buf = sprintf(`%3s  %-${middleCharLen-chnLen}s %8s`, l, m, r)
-        buffer.write(iconv.encode(buf,'GBK'))
-        buffer.write(Command.LF)
-      }
-      function setThreeCol(data) {
-        const chnLen = getChnCount(data.name)
-        const charLen = data.name.length + chnLen
-        console.log(charLen, middleCharLen)
-        if (charLen <= middleCharLen) {
-          setThreeColText(data.num, data.name, `￥${data.price}`)
-        } else {
-          let charList = [2]
-          for (var i = 1; i < data.name.length; i++) {
-            var charCode = data.name.charCodeAt(i)
-            if (charCode >= 0 && charCode <= 128) {
-              charList.push(1 + charList[i - 1])
-            } else {
-              charList.push(2 + charList[i - 1])
-            }
-          }
-          let indexList = [0]
-          for (var i = 10; i < charList.length; i++) {
-            if(charList[i] % 22 >= 0 && charList[i] % 22 < 2 && !(charList[i+1] && charList[i+1] % 22 >= 0 && charList[i+1] % 22 < 2)) {
-              indexList.push(i)
-            }
-          }
-          setThreeColText(data.num, data.name.slice(0, indexList[1]), `￥${data.price}`)
-          console.log(data.name.slice(0, indexList[1]))
-          if (indexList.length === 2) {
-            setThreeColText('', data.name.slice(indexList[1]), '')
-            console.log(data.name.slice(indexList[1]))
-          } else {
-            for(let i = 2; i < indexList.length; i++) {
-              if (i === indexList.length - 1) {
-                setThreeColText('', data.name.slice(indexList[i]), '')
-                console.log(data.name.slice(indexList[i]))
-              } else {
-                setThreeColText('', data.name.slice(indexList[i - 1], indexList[i]), '')
-                console.log(data.name.slice(indexList[i - 1], indexList[i]))
-              }
-            }
-          }
-        }
-      }
-      function setTwoCol(one, two) {
-        const buf = sprintf(`%-${30-one.length}s%8s`, one, two)
-        buffer.write(iconv.encode(buf,'GBK'))
-        buffer.write(Command.LF)
-      }
-
-      function setDecLine() {
-        buffer.write(Command.ESC_minus(2))
-        buffer.write(sprintf(`%40s`, ' '))
-        buffer.write(Command.ESC_minus(0))
-        buffer.write(sprintf(`%40s`, ' '))
-        buffer.write(Command.LF)
-      }
-      function setBoldOn() {
-        buffer.write(Command.ESC_E(1))
-      }
-      function setBoldOff () {
-        buffer.write(Command.ESC_E(0))
-      }
-      function setLineHeight(num) {
-        buffer.write(Command.ESC_3(num))
-      }
-      function setLine(n) {
-        if (!n) {
-          buffer.write(Command.LF)
-          return
-        }
-        for(var i =0; i< n; i++) {
-          buffer.write(Command.LF)
-        }
-      }
-      function setText(str, direction) {
-        if (direction && direction === 'center') {
-          buffer.write(Command.ESC_a(49))
-          buffer.write(iconv.encode(str,'GBK'))
-        } else if(direction && direction === 'right') {
-          buffer.write(Command.ESC_a(50))
-          buffer.write(iconv.encode(str,'GBK'))
-        } else {
-          buffer.write(Command.ESC_a(48))
-          buffer.write(iconv.encode(str,'GBK'))
-        }
-        buffer.write(Command.LF)
-      }
-      function setTextSize(n) {
-        switch(n) {
-          case 2:
-            buffer.write(Command.GS_exclamation(17))
-            break
-          default:
-            buffer.write(Command.GS_exclamation(0))
-        }
-      }
-
       
-      const data = {
-        id: 258,
-        delivery: '外送 立即配送',
-        goods: [{
-          num: 12,
-          name: '鱼香肉丝盖饭',
-          price: 30
-        }, {
-          num: 1,
-          name: '奥尔良鸡翅大汉堡啥都有还(买一赠一)sahika379021382198sji总之很实惠',
-          price: 999.99
-        }, {
-          num: 12,
-          name: '焦糖玛奇朵走过路过不要错过',
-          price: 1
-        }],
-        need: 0,
-        package: 10,
-        fee: 13,
-        total: 234,
-        address: '北京学清嘉创大厦与什么什么交叉路口东南角15层',
-        user: '赵女士 18813130864',
-        time: '2018-07-09 13:01:00',
-        shop_name: '集集小镇（萧山二店）',
-        remark: '鱼香肉丝不要肉丝多加胡萝卜'
+      document.cookie = 'ae-isnw=0'
+      if(nw) {
+        document.cookie = 'ae-isnw=1'
+      }
+      
+      var pkg = require('./package.json')
+      document.cookie = `ae-version=${pkg.version}`
+      console.log(document.cookie)
+
+      const printer = require('./printer.js')
+      
+      function getPrinterList() {
+        return printer.getPrinterList()
       }
 
-      buffer.write(Command.ESC_init)
-      setLineHeight(70)
-      setTextSize(2)
-      setLineHeight(50)
-      setText(data.id, 'center')
-      setTextSize(1)
-      setLineHeight(100)
-      setText(data.delivery, 'center')
-      setLineHeight(70)
-      setDecLine()
-      setBoldOn()
-      setLineHeight(70)
-      data.goods.forEach(item => {
-        setThreeCol(item)
-      })
-      setLine()
-      setLineHeight(100)
-      setText(`备注：${data.remark}`)
-      setBoldOff()
-      setLineHeight(50)
-      setDecLine()
-      setLineHeight(70)
-      setTwoCol('开具发票', '是')
-      setTwoCol('包装费', '￥7')
-      setTwoCol('配送费', '￥10')
-      setLineHeight(50)
-      setDecLine()
-      setBoldOn()
-      setText(`合计：${data.total}  `, 'right')
-      setBoldOff()
-      setDecLine()
-      setLineHeight(70)
-      setText(`送货地址：${data.address}`)
-      setText(`客户：${data.user}`)
-      setDecLine()
-      setText(`下单时间: ${data.time} \n \n`, 'center')
-      setLine()
-      setLine()
-      setBoldOn()
-      setText(data.shop_name, 'center')
-      setLine()
-      setLine()
-      buffer.write(Command.GS_V(65, 0))
-      buffer.flush()
-
-      printer.printDirect({
-        data: buffer.buffer,
-        printer: printerList[1].name,
-        type: "RAW",
-        success:function(jobID){
-          console.log("sent to printer with ID: "+jobID);
-        },
-        error:function(err){
-          console.log(err);
+      function getPrinter() {
+        var list = document.cookie.split(';')
+        for(var i = 0; i < list.length; i++) {
+          var arr = list[i].split('=')
+          if(arr.length === 2 && arr[0] === 'ae-printer') {
+            return arr[1]
+          }
         }
-      });
+        return false
+      }
+      function setPrinter(name) {
+        document.cookie = `ae-printer=${name}`
+      }
+
+      function printOrderRecive(data) {
+        const Buffer = require('./escpos.js')
+        var buffer = new Buffer()
+
+        buffer = buffer.setLineHeight(70)
+          .setTextSize(2).setLineHeight(50).setText(data.order_id, 'center')
+          .setTextSize(1).setLineHeight(100).setText(`${data.delivery_way} ${data.deliver_time}`, 'center')
+          .setLineHeight(70).setDecLine()
+          .setBoldOn()
+          .setLineHeight(70)
+        data.goods.forEach(item => {
+          buffer = buffer.setThreeCol(item.quantity, item.sku_name, `￥${sku.price}`)
+        })
+        buffer = buffer.setLine()
+          .setLineHeight(100).setText(`备注：${data.description}`).setBoldOff()
+          .setLineHeight(50).setDecLine()
+          .setLineHeight(70)
+          .setTwoCol('开具发票', data.invoiced)
+          .setTwoCol('包装费', `￥${data.package_fee}`)
+          .setTwoCol('配送费', `￥${data.deliver_fee}`)
+          .setLineHeight(50)
+          .setDecLine()
+          .setBoldOn().setText(`合计：${data.total_price}  `, 'right').setBoldOff()
+          .setDecLine()
+          .setLineHeight(70)
+          .setText(`送货地址：${data.receiver_address}`)
+          .setText(`客户：${data.receiver_name} ${data.receiver_phone}`)
+          .setDecLine()
+          .setText(`下单时间: ${data.create_time} \n \n`, 'center')
+          .setLine().setLine()
+          .setBoldOn().setText(data.tagg_shop_name, 'center')
+          .setLine().setLine()
+          .cut()
+          .getBuffer()
+          console.log(buffer)
+          printer.print(printerList[1].name, buffer)
+      }
     </script>
   </body>
 </html>

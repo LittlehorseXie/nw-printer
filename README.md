@@ -47,11 +47,13 @@ nw .
 
 ## 4. 目录结构
 ```
-|-- assets ---------- logo文件
-|-- node_modules ---- 依赖包，除了npm install之外，还对printer做了特殊处理
-|-- command.js ------ esc/pos常用指令集
-|-- index.html ------ 主文件
+|-- assets ------------- logo文件
+|-- node_modules ------- 依赖包，除了npm install之外，还对printer做了特殊处理
+|-- command.js --------- esc/pos常用指令集
+|-- escpos.js ---------- 常用函数的封装
+|-- index.html --------- 主文件
 |-- package.lock.json
+|-- printer.js --------- 打印机函数的封装
 |-- package.json
 ```
 
