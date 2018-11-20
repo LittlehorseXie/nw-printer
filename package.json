@@ -10,7 +10,7 @@
   "manifestUrl": "http://sems-1254389369.picgz.myqcloud.com/takeout_aggregate/update/package.json",
   "packages": {
       "win": {
-          "url": "http://sems-1254389369.picgz.myqcloud.com/takeout_aggregate/update/all-embracing.zip"
+        "url": "http://sems-1254389369.picgz.myqcloud.com/takeout_aggregate/update/all-embracing.zip"
       }
   },
   "license": "MIT",
