@@ -16,5 +16,8 @@ module.exports = {
         console.log(err);
       }
     });
+  },
+  getPrinter: function(printerName) {
+    return printer.getPrinter(printerName)
   }
 }

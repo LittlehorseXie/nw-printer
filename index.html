@@ -5,7 +5,7 @@
     <title>万象集</title>
   </head>
   <body>
-    <iframe id="frame" width="100%" height="100%" scrolling="no" frameborder="0" frameborder="0"
+    <iframe id="frame" width="100%" height="100%" frameborder="0" frameborder="0"
       src="http://gz-sems-development01.gz.sftcwl.com:8291/manage/login?url=/pages/merchant/list"></iframe>
     <script>
       var win = nw.Window.get()
@@ -14,19 +14,19 @@
       win.on('resize', function(){
         frame.height = win.height
       })
+      const domain = 'http://gz-sems-development01.gz.sftcwl.com:8291'
       
-      if(nw) {
-        document.cookie = 'ae-isnw=1'
-      }
       
       var pkg = require('./package.json')
-      document.cookie = `ae-version=${pkg.version}`
-      console.log(document.cookie)
+      frame.src = `http://gz-sems-development01.gz.sftcwl.com:8291/manage/login?url=/pages/merchant/list&version=${pkg.version}&isnw=1`
 
       const printer = require('./printer.js')
       
       function getPrinterList() {
-        return printer.getPrinterList()
+        const list = printer.getPrinterList()
+        const res = []
+        list.forEach(item => res.push(item.name))
+        return res
       }
 
       function getPrinter() {
@@ -34,6 +34,9 @@
         for(var i = 0; i < list.length; i++) {
           var arr = list[i].split('=')
           if(arr.length === 2 && arr[0] === 'ae-printer') {
+            // if (printer.getPrinter('939939')) {
+            //   return false
+            // }
             return arr[1]
           }
         }
@@ -42,19 +45,46 @@
       function setPrinter(name) {
         document.cookie = `ae-printer=${name}`
       }
+      
+      window.addEventListener('message', function(e) {
+        const data = JSON.parse(e.data)
+        if (data.type === 'getPrinter') {
+          console.log('getPrinter')
+          const res = getPrinter()
+          if (res) {
+            frame.contentWindow.postMessage(JSON.stringify({type: 'setPrinterName', name: res}), domain)
+          } else {
+            frame.contentWindow.postMessage(JSON.stringify({type: 'setPrinterName'}), domain)
+          }
+          
+        } else if (data.type === 'print') {
+          console.log('print', data.name, data.data)
+          printOrderRecive(data.name, data.data)
+        } else if (data.type === 'setPrinter') {
+          console.log('setPrinter', data.name)
+          setPrinter(data.name)
+          const res = getPrinter()
+          frame.contentWindow.postMessage(JSON.stringify({type: 'setPrinterName', name: data.name}), domain)
+        } else if (data.type === 'getPrinterList') {
+          console.log('getPrinterList')
+          const list = getPrinterList()
+          frame.contentWindow.postMessage(JSON.stringify({type: 'setPrinterList', list}), domain)
+        }
+      })
 
       function printOrderRecive(name, data) {
+        console.log(name, data)
         const Buffer = require('./escpos.js')
         var buffer = new Buffer()
 
         buffer = buffer.setLineHeight(70)
-          .setTextSize(2).setLineHeight(50).setText(data.order_id, 'center')
+          .setTextSize(2).setLineHeight(50).setText(data.id, 'center')
           .setTextSize(1).setLineHeight(100).setText(`${data.delivery_way} ${data.deliver_time}`, 'center')
           .setLineHeight(70).setDecLine()
           .setBoldOn()
           .setLineHeight(70)
-        data.goods.forEach(item => {
-          buffer = buffer.setThreeCol(item.quantity, item.sku_name, `￥${sku.price}`)
+        data.sku_detail.forEach(item => {
+          buffer = buffer.setThreeCol(item.quantity, item.sku_name, `￥${item.price}`)
         })
         buffer = buffer.setLine()
           .setLineHeight(100).setText(`备注：${data.description}`).setBoldOff()
@@ -65,7 +95,7 @@
           .setTwoCol('配送费', `￥${data.deliver_fee}`)
           .setLineHeight(50)
           .setDecLine()
-          .setBoldOn().setText(`合计：${data.total_price}  `, 'right').setBoldOff()
+          .setBoldOn().setText(`合计：￥${data.total_price}  `, 'right').setBoldOff()
           .setDecLine()
           .setLineHeight(70)
           .setText(`送货地址：${data.receiver_address}`)
@@ -77,7 +107,7 @@
           .setLine().setLine()
           .cut()
           .getBuffer()
-          console.log(buffer)
+          
           printer.print(name, buffer)
       }
     </script>

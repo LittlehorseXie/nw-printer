@@ -31,7 +31,7 @@
   "window": {
     "icon": "./assets/all.png",
     "toolbar": true,
-    "min_width": 800,
+    "min_width": 1000,
     "min_height": 500,
     "single-instance": false
   },
