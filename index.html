@@ -14,11 +14,8 @@
       win.on('resize', function(){
         frame.height = win.height
       })
-      
-      if(nw) {
-        document.cookie = 'ae-isnw=1'
-      }
-      
+
+      document.cookie = 'ae-isnw=1'
       var pkg = require('./package.json')
       document.cookie = `ae-version=${pkg.version}`
       console.log(document.cookie)
@@ -43,7 +40,7 @@
         document.cookie = `ae-printer=${name}`
       }
 
-      function printOrderReceipt(data) {
+      function printOrderReceipt(name,data) {
         const Buffer = require('./escpos.js')
         var buffer = new Buffer()
 
