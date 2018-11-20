@@ -7,6 +7,12 @@
     "dist": "build --tasks win-x64 --mirror https://npm.taobao.org/mirrors/nwjs/ .",
     "start": "run --x86 --mirror https://npm.taobao.org/mirrors/nwjs/ ."
   },
+  "manifestUrl": "http://sems-1254389369.picgz.myqcloud.com/takeout_aggregate/update/package.json",
+  "packages": {
+      "win": {
+          "url": "http://sems-1254389369.picgz.myqcloud.com/takeout_aggregate/update/all-embracing.zip"
+      }
+  },
   "license": "MIT",
   "repository": "",
   "single-instance": true,
