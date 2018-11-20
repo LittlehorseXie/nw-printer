@@ -110,6 +110,68 @@
 
           printer.print(name, buffer)
       }
+
+    var gui = require('nw.gui'); //操作nw应用
+    var updater = require('node-webkit-updater'); //热更新
+    var upd = new updater(pkg);
+    var copyPath, execPath;
+    var progressTimer; //设置一个定时器，用来模拟下载的进去条
+    
+    console.log(gui.App)
+    
+    if (gui.App.argv.length) {
+      copyPath = gui.App.argv[0];
+      execPath = gui.App.argv[1];
+  
+      // 替换旧版本
+      upd.install(copyPath, function(err) {
+        if (!err) {
+
+          // 重启
+          upd.run(execPath, null);
+          gui.App.quit();
+        }
+      });
+    } else {
+        // 从manifest目录校验版本
+        upd.checkNewVersion(function(error, newVersionExists, manifest) {
+          if (!error && newVersionExists) {
+            // 有新版本显示下载进度条开始下载
+            $('.mask').show();
+            setTimeout(function() {
+              var startC = parseInt(Math.floor(Math.random() + 1) * 3);
+              $('.progress div').width(startC + '%');
+              progressTimer = setInterval(function() {
+                startC += Math.random() * 2;
+                if (startC >= 95) {
+                    clearInterval(progressTimer);
+                    startC = 95;
+                }
+                $('.progress div').width(startC + '%');
+                $('.progress p').html(startC.toFixed(2) + '%');
+              }, 2000);
+            }, 1000);
+    
+            // 下载新版本
+            upd.download(function(error, filename) {
+              if (!error) {
+                clearInterval(progressTimer);
+                $('.progress div').width('100%');
+                $('.progress p').html('100%');
+                // 下载完成关闭应用
+                upd.unpack(filename, function(error, newAppPath) {
+                  if (!error) {
+
+                    // 重启应用
+                    upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()], {});
+                    gui.App.quit();
+                  }
+                }, manifest);
+              }
+            }, manifest);
+          }
+        });
+      }
     </script>
   </body>
 </html>
