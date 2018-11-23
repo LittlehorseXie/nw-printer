@@ -19,6 +19,7 @@
   "build": {
     "appId": "sf.fe.all-embracing.project",
     "packed": true,
+    "nwVersion": "0.14.7",
     "targets": [
       "zip",
       "nsis7z"

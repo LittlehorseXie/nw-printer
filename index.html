@@ -3,6 +3,12 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <title>万象集</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+    </style>
   </head>
   <body>
     <iframe id="frame" width="100%" height="100%" frameborder="0" frameborder="0"
@@ -101,36 +107,36 @@
           .setText(`送货地址：${data.receiver_address}`)
           .setText(`客户：${data.receiver_name} ${data.receiver_phone}`)
           .setDecLine()
-          .setText(`下单时间: ${data.create_time} \n \n`, 'center')
-          .setLine().setLine()
-          .setBoldOn().setText(data.tagg_shop_name, 'center')
-          .setLine().setLine()
+          .setText(`下单时间: ${data.create_time}`, 'center')
+          .setLine(2)
+          .setBoldOn().setText(`${data.tagg_shop_name} \n \n`, 'center').setBoldOff()
+          .setLine(2)
           .cut()
           .getBuffer()
 
           printer.print(name, buffer)
       }
 
-    var gui = require('nw.gui'); //操作nw应用
-    var updater = require('node-webkit-updater'); //热更新
-    var upd = new updater(pkg);
-    var copyPath, execPath;
-    var progressTimer; //设置一个定时器，用来模拟下载的进去条
-    
-    if (gui.App.argv.length) {
-      copyPath = gui.App.argv[0];
-      execPath = gui.App.argv[1];
-      console.log('替换旧版本')
-      // 替换旧版本
-      upd.install(copyPath, function(err) {
-        if (!err) {
+      var gui = require('nw.gui'); //操作nw应用
+      var updater = require('node-webkit-updater'); //热更新
+      var upd = new updater(pkg);
+      var copyPath, execPath;
+      var progressTimer; //设置一个定时器，用来模拟下载的进去条
+      
+      if (gui.App.argv.length) {
+        copyPath = gui.App.argv[0];
+        execPath = gui.App.argv[1];
+        console.log('替换旧版本')
+        // 替换旧版本
+        upd.install(copyPath, function(err) {
+          if (!err) {
 
-          // 重启
-          upd.run(execPath, null);
-          gui.App.quit();
-        }
-      });
-    } else {
+            // 重启
+            upd.run(execPath, null);
+            // gui.App.quit();
+          }
+        });
+      } else {
         // 从manifest目录校验版本
         console.log('从manifest目录校验版本')
         upd.checkNewVersion(function(error, newVersionExists, manifest) {
@@ -167,9 +173,10 @@
                 upd.unpack(filename, function(error, newAppPath) {
                   if (!error) {
                     console.log('重启应用')
+                    console.log(newAppPath, [upd.getAppPath(), upd.getAppExec()])
                     // 重启应用
                     upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()], {});
-                    gui.App.quit();
+                    // gui.App.quit();
                   }
                 }, manifest);
               }

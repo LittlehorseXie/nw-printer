@@ -108,9 +108,7 @@ Buffer.prototype = {
       this._buf.write(Command.LF)
       return this
     }
-    for(var i =0; i< n; i++) {
-      this._buf.write(Command.LF)
-    }
+    this._buf.write(Command.ESC_d(n))
     return this
   },
   setText: function (str, direction) {
@@ -148,7 +146,7 @@ Buffer.prototype = {
     return this
   },
   cut: function() {
-    this._buf.write(Command.GS_V(65, 0))
+    this._buf.write(Command.GS_V(49))
     return this
   },
   getBuffer: function() {
