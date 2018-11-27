@@ -1,17 +1,17 @@
 {
   "name": "all-embracing",
   "main": "index.html",
-  "description": "test nw.js app",
+  "description": "an nw.js app",
   "version": "0.0.1",
   "scripts": {
     "dist": "build --tasks win-x64 --mirror https://npm.taobao.org/mirrors/nwjs/ .",
-    "start": "run --x86 --mirror https://npm.taobao.org/mirrors/nwjs/ ."
+    "start": "run --x64 --mirror https://npm.taobao.org/mirrors/nwjs/ ."
   },
-  "manifestUrl": "http://sems-1254389369.file.myqcloud.com/takeout_aggregate/update/package.json ",
+  "manifestUrl": "http://sems-1254389369.cosgz.myqcloud.com/takeout_aggregate/update/package.json",
   "packages": {
-      "win": {
-        "url": "http://sems-1254389369.file.myqcloud.com/takeout_aggregate/update/all-embracing.zip"
-      }
+    "win64": {
+      "url": "http://sems-1254389369.file.myqcloud.com/takeout_aggregate/update/all-embracing.zip"
+    }
   },
   "license": "MIT",
   "repository": "",
@@ -49,6 +49,7 @@
     "iconv-lite": "^0.4.24",
     "mutable-buffer": "^2.1.1",
     "node-webkit-updater": "^0.3.3",
+    "nw-autoupdater": "^1.1.6",
     "printer": "^0.2.2",
     "sprintf-js": "^1.1.1"
   }

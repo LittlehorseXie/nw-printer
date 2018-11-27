@@ -1,4 +1,4 @@
-const printer = require('printer')
+const printer = nw.require('printer')
 
 module.exports = {
   getPrinterList: function() {
