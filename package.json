@@ -10,7 +10,7 @@
   "manifestUrl": "http://sems-1254389369.cosgz.myqcloud.com/takeout_aggregate/update/package.json",
   "packages": {
     "win64": {
-      "url": "http://sems-1254389369.file.myqcloud.com/takeout_aggregate/update/all-embracing.zip"
+      "url": "http://sems-1254389369.cosgz.myqcloud.com/takeout_aggregate/update/all-embracing.zip"
     }
   },
   "license": "MIT",
@@ -29,7 +29,7 @@
     ],
     "outputPattern": "${NAME} ${VERSION} ${PLATFORM} ${ARCH}",
     "win": {
-      "productName": "万象集",
+      "productName": "all-embracing",
       "companyName": "sf",
       "copyright": "",
       "icon": "./assets/all.ico"
