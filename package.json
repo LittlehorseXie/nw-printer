@@ -1,21 +1,30 @@
 {
   "name": "all-embracing",
+  "title": "万象集",
   "main": "index.html",
-  "description": "test nw.js app",
+  "description": "an nw.js app",
   "version": "0.0.1",
   "scripts": {
     "dist": "build --tasks win-x64 --mirror https://npm.taobao.org/mirrors/nwjs/ .",
-    "start": "run --x86 --mirror https://npm.taobao.org/mirrors/nwjs/ ."
+    "start": "run --x64 --mirror https://npm.taobao.org/mirrors/nwjs/ ."
+  },
+  "manifestUrl": "http://sems-1254389369.cosgz.myqcloud.com/takeout_aggregate/update/package.json",
+  "packages": {
+    "win": {
+      "url": "http://sems-1254389369.cosgz.myqcloud.com/takeout_aggregate/update/%E4%B8%87%E8%B1%A1%E9%9B%86.zip"
+    }
   },
   "license": "MIT",
   "repository": "",
   "single-instance": true,
   "build": {
     "appId": "sf.fe.all-embracing.project",
-    "packed": true,
+    "packed": false,
+    "nwVersion": "0.32.0",
     "targets": [
       "zip",
-      "nsis7z"
+      "nsis7z",
+      "nsis"
     ],
     "strippedProperties": [
       "build"
@@ -26,12 +35,17 @@
       "companyName": "sf",
       "copyright": "",
       "icon": "./assets/all.ico"
+    },
+    "nsis": {
+      "languages": [
+        "SimpChinese"
+      ]
     }
   },
   "window": {
     "icon": "./assets/all.png",
     "toolbar": true,
-    "min_width": 800,
+    "min_width": 1000,
     "min_height": 500,
     "single-instance": false
   },
