@@ -49,14 +49,8 @@
     "min_height": 500,
     "single-instance": false
   },
-  "devDependencies": {
-    "nwjs-builder-phoenix": "^1.14.8"
-  },
+  "devDependencies": {},
   "dependencies": {
-    "iconv-lite": "^0.4.24",
-    "mutable-buffer": "^2.1.1",
-    "node-webkit-updater": "^0.3.3",
-    "printer": "^0.2.2",
-    "sprintf-js": "^1.1.1"
+    "printer": "^0.2.2"
   }
 }
