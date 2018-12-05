@@ -10,25 +10,36 @@ function getChnCount(str) {
 
 var Buffer = function() {
   this._buf = new MutableBuffer()
-  console.log(this._buf)
   this._buf.write(Command.ESC_init)
 }
 
 Buffer.prototype = {
   /**
      * 打印文字
-     * @param {string, string, string} setThreeCol    设置左中右布局
-     * @param {string, string} setTwoCol              设置左右布局
-     * @param {} setDecLine               分割线
-     * @param {} setBoldOn                开启粗体模式
-     * @param {} setBoldOff               关闭粗体模式
-     * @param {object} setLineHeight      设置字行高
-     * @param {string} setLine            换行并打印
-     * @param {boolen} setText            写文字
-     * @param {string} setTextDirection   设置文字布局
-     * @param {number} setTextSize        设置字体大小
-     * @param {number} cut                留点切纸
-     * @param {} getBuffer                获取字符
+     * @function setThreeCol              设置左中右布局
+     *    @param {string, string, string}
+     * @function setTwoCol                设置左右布局
+     *    @param {string, string}
+     * @function setDecLine               分割线
+     *    @param {}
+     * @function setBoldOn                开启粗体模式
+     *    @param {}
+     * @function setBoldOff               关闭粗体模式
+     *    @param {}
+     * @function setLineHeight            设置字行高
+     *    @param {number}
+     * @function setLine                  换行并打印
+     *    @param {number}
+     * @function setText                  写文字
+     *    @param {string}
+     * @function setTextDirection         设置文字布局
+     *    @param {string}
+     * @function setTextSize              设置字体大小
+     *    @param {number}
+     * @function cut                      留点切纸
+     *    @param {} 
+     * @function getBuffer                获取字符
+     *    @param {} 
      */
   setThreeColText: function (l, m, r) {
     const chnLen = getChnCount(m)

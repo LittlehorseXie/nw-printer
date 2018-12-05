@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <title>万象集1</title>
+    <title>万象集</title>
     <style>
       body {
         margin: 0;
@@ -18,8 +18,8 @@
   </head>
   <body>
     <pre id="output"></pre>
-    <iframe id="frame" width="100%" height="100%" frameborder="0" frameborder="0"
-      src=""></iframe>
+    <iframe id="frame" width="100%" height="100%" frameborder="0" frameborder="0" src=""></iframe>
+    <script src="./auto-update.js"></script>
     <script>
       var win = nw.Window.get()
       var frame = document.getElementById('frame')
@@ -27,193 +27,44 @@
       win.on('resize', function(){
         frame.height = win.height
       })
-      const domain = 'http://wmhubic.sf-express.com'
-      
-      
+
+      var domain = 'http://wmhubic.sf-express.com'
       var pkg = require('./package.json')
       frame.src = `${domain}/manage/login?url=/pages/merchant/list&version=${pkg.version}&isnw=1`
 
-      const printer = require('./printer.js')
+      var printer = require('./printer.js')
       
       function getPrinterList() {
-        const list = printer.getPrinterList()
-        const res = []
+        var list = printer.getPrinterList()
+        var res = []
         list.forEach(item => res.push(item.name))
         return res
       }
 
-      function getPrinter() {
-        var list = document.cookie.split(';')
-        for(var i = 0; i < list.length; i++) {
-          var arr = list[i].split('=')
-          if(arr.length === 2 && arr[0] === 'ae-printer') {
-            // if (printer.getPrinter('939939')) {
-            //   return false
-            // }
-            try{
-              printer.getPrinter('939939')
-            }
-            catch(e) {
-              console.log('99999')
-              console.log(e)
-              return false
-            }
-            return arr[1]
-          }
-        }
-        return false
-      }
-      function setPrinter(name) {
-        document.cookie = `ae-printer=${name}`
+      function getPrinter(name) {
+        return printer.getPrinter(name)
       }
       
       window.addEventListener('message', function(e) {
-        const data = JSON.parse(e.data)
-        if (data.type === 'getPrinter') {
-          console.log('getPrinter')
-          const res = getPrinter()
-          if (res) {
-            frame.contentWindow.postMessage(JSON.stringify({type: 'setPrinterName', name: res}), domain)
+        var data = JSON.parse(e.data)
+        if (data.type === 'printOrderRecive') {
+          console.log('printOrderRecive', data.name, data.data)
+          if (getPrinter(data.name)) {
+            console.log('打印小票成功')
+            printOrderRecive(data.name, data.data)
           } else {
-            frame.contentWindow.postMessage(JSON.stringify({type: 'setPrinterName'}), domain)
+            console.log('打印小票失败 找不到打印机')
+            frame.contentWindow.postMessage(JSON.stringify({type: 'errmsg', des: '打印机未连接'}), domain)
           }
-          
-        } else if (data.type === 'print') {
-          console.log('print', data.name, data.data)
-          printOrderRecive(data.name, data.data)
-        } else if (data.type === 'setPrinter') {
-          console.log('setPrinter', data.name)
-          setPrinter(data.name)
-          const res = getPrinter()
-          frame.contentWindow.postMessage(JSON.stringify({type: 'setPrinterName', name: data.name}), domain)
         } else if (data.type === 'getPrinterList') {
           console.log('getPrinterList')
-          const list = getPrinterList()
+          var list = getPrinterList()
           frame.contentWindow.postMessage(JSON.stringify({type: 'setPrinterList', list}), domain)
         }
       })
 
-      function printOrderRecive(name, data) {
-        console.log(name, data)
-        const Buffer = require('./escpos.js')
-        var buffer = new Buffer()
+      
 
-        buffer = buffer.setLineHeight(70)
-          .setTextSize(2).setLineHeight(50).setText(data.id, 'center')
-          .setTextSize(1).setLineHeight(100).setText(`${data.delivery_way} ${data.deliver_time}`, 'center')
-          .setLineHeight(70).setDecLine()
-          .setBoldOn()
-          .setLineHeight(70)
-        data.sku_detail.forEach(item => {
-          buffer = buffer.setThreeCol(item.quantity, item.sku_name, `￥${item.price}`)
-        })
-        buffer = buffer.setLine()
-          .setLineHeight(100).setText(`备注：${data.description}`).setBoldOff()
-          .setLineHeight(50).setDecLine()
-          .setLineHeight(70)
-          .setTwoCol('开具发票', data.invoiced)
-          .setTwoCol('包装费', `￥${data.package_fee}`)
-          .setTwoCol('配送费', `￥${data.deliver_fee}`)
-          .setLineHeight(50)
-          .setDecLine()
-          .setBoldOn().setText(`合计：￥${data.total_price}  `, 'right').setBoldOff()
-          .setDecLine()
-          .setLineHeight(70)
-          .setText(`送货地址：${data.receiver_address}`)
-          .setText(`客户：${data.receiver_name} ${data.receiver_phone}`)
-          .setDecLine()
-          .setText(`下单时间: ${data.create_time}`, 'center')
-          .setLine(2)
-          .setBoldOn().setText(`${data.tagg_shop_name} \n \n`, 'center').setBoldOff()
-          .setLine(2)
-          .cut()
-          .getBuffer()
-
-          printer.print(name, buffer)
-      }
-
-      var output =  document.querySelector( "#output" );
-      var gui = require('nw.gui'); //操作nw应用
-      var updater = require('node-webkit-updater'); //热更新
-      var upd = new updater(pkg);
-      var copyPath, execPath;
-      var path = require('path');
-      var progressTimer; //设置一个定时器，用来模拟下载的进去条
-
-      console.log(gui.App.argv)
-      if (gui.App.argv.length) {
-        copyPath = gui.App.argv[0];
-        execPath = gui.App.argv[1];
-        console.log('替换旧版本')
-        output.innerHTML = copyPath + ' 替换旧版本 ' + execPath
-        // 替换旧版本
-        upd.install(copyPath, function(err) {
-          if (!err) {
-
-            // 重启
-            output.innerHTML = '重启 ' + execPath
-            upd.run(execPath, null);
-            gui.App.quit();
-          } else {
-            output.innerHTML = err
-          }
-        });
-      } else {
-        // 从manifest目录校验版本
-        console.log('从manifest目录校验版本')
-        output.innerHTML = 
-        upd.checkNewVersion(function(error, newVersionExists, manifest) {
-          console.log(error, newVersionExists, manifest)
-          if (!error && newVersionExists && confirm('检测到新版本，您需要升级吗?')) {
-            // 有新版本显示下载进度条开始下载
-            console.log('有新版本显示下载进度条开始下载')
-            output.innerHTML = '有新版本显示下载进度条开始下载'
-            // $('.mask').show();
-            setTimeout(function() {
-              var startC = parseInt(Math.floor(Math.random() + 1) * 3);
-              // $('.progress div').width(startC + '%');
-              progressTimer = setInterval(function() {
-                startC += Math.random() * 2;
-                if (startC >= 95) {
-                    clearInterval(progressTimer);
-                    startC = 95;
-                }
-                console.log(startC.toFixed(2) + '%')
-                output.innerHTML = startC.toFixed(2) + '%'
-                // $('.progress div').width(startC + '%');
-                // $('.progress p').html(startC.toFixed(2) + '%');
-              }, 2000);
-            }, 1000);
-    
-            // 下载新版本
-            console.log('下载新版本')
-            output.innerHTML = '下载新版本'
-            upd.download(function(error, filename) {
-              console.log(error, filename)
-              if (!error) {
-                clearInterval(progressTimer);
-                // 下载完成关闭应用
-                console.log('下载完成即将关闭应用')
-                output.innerHTML = '下载完成即将关闭应用'
-                upd.unpack(filename, function(error, newAppPath) {
-                  console.log(error, newAppPath)
-                  if (!error) {
-                    var newAppDir = path.dirname(newAppPath); 
-                    console.log('重启应用')
-                    output.innerHTML = '重启应用'
-                    console.log(newAppPath, [upd.getAppPath(), upd.getAppExec()])
-                    // 重启应用
-                    output.innerHTML = `${newAppPath}, [${upd.getAppPath()}, ${upd.getAppExec()}, cwd: ${newAppDir}]`
-                    upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()],  {cwd: newAppDir});
-                    // upd.runInstaller(newAppPath, [], {})
-                    gui.App.quit();
-                  }
-                }, manifest);
-              }
-            }, manifest);
-          }
-        });
-      }
     </script>
   </body>
 </html>

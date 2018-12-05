@@ -1,4 +1,4 @@
-仅支持windows系统
+**注：仅支持`windows`系统**
 
 ## 1. 本地运行项目
 
@@ -22,10 +22,10 @@ npm run dist
 ```
 |-- assets ------------- logo文件
 |-- node_modules ------- 依赖包，除了普通的npm install之外，对printer做了特殊处理
+|-- auto-update.js ----- 自动更新相关代码
 |-- command.js --------- esc/pos常用指令集
 |-- escpos.js ---------- 常用打印函数的封装
 |-- index.html --------- 主文件
-|-- package.lock.json
 |-- printer.js --------- 打印机函数的封装
 |-- package.json
 ```
@@ -57,7 +57,7 @@ npm run dist
 #### 问题：使用`node-webkit-updater`官方例子自动更新时，在执行到替换旧版本时会报错 `EBUSY: resource busy or locked`
 
 - 原因：在运行安装程序时的步骤4中, 它的 cwd 默认为当前进程的 cwd, 可能是旧应用程序的目录。所以, 无法删除、覆盖安装目标目录, 因为正在使用它。
-- 解决： var newAppDir = path.dirname(newAppPath)，再将upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()],{});改为upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()], {cwd: newAppDir} )
+- 解决：在源代码中添加 var newAppDir = path.dirname(newAppPath)，再将 upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()],{}) 改为 upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()], {cwd: newAppDir} )
 
 
 ### 3. `打印`相关
@@ -79,12 +79,12 @@ nw-gyp rebuild --target=${nw-version}
 - 原因：node的buffer不支持gbk编码
 - 解决：使用iconv-lite进行bgk编码
 
-#### 问题：多列布局
+#### 问题：多列布局实现
 
 - 原因：不知道什么方式实现类似flex布局
 - 解决：使用sprint-js，一个神奇的补空格实现布局的方案
 
-#### 问题：分割线
+#### 问题：分割线实现
 
 - 原因：没有分割线指令
 - 解决：结合sprint-js，用一行带下划线的空格来模拟
@@ -93,3 +93,8 @@ nw-gyp rebuild --target=${nw-version}
 
 - 原因：一开始尝试的全切，当连续多张打印时，前面的纸会卡住后面的纸
 - 解决：改用留点半切
+
+
+参考文献 
+
+[微型热敏打印机指令集](https://wenku.baidu.com/view/6de8b8fec281e53a5902ff98#1?qq-pf-to=pcqq.c2c)

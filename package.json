@@ -2,7 +2,7 @@
   "name": "all-embracing",
   "title": "万象集",
   "main": "index.html",
-  "description": "an nw.js app",
+  "description": "An nw.js app",
   "version": "0.0.1",
   "scripts": {
     "dist": "build --tasks win-x64 --mirror https://npm.taobao.org/mirrors/nwjs/ .",
@@ -15,7 +15,7 @@
     }
   },
   "license": "MIT",
-  "repository": "",
+  "repository": "https://github.com/LittlehorseXie/nw-printer",
   "single-instance": true,
   "build": {
     "appId": "sf.fe.all-embracing.project",
@@ -23,8 +23,7 @@
     "nwVersion": "0.32.0",
     "targets": [
       "zip",
-      "nsis7z",
-      "nsis"
+      "nsis7z"
     ],
     "strippedProperties": [
       "build"
