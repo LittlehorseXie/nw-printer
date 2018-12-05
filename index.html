@@ -132,51 +132,6 @@
           printer.print(name, buffer)
       }
 
-      // const AutoUpdater = require( "nw-autoupdater" ),
-      //       updater = new AutoUpdater( require( "./package.json" ) ),
-      //       output =  document.querySelector( "#output" );
-      // async function main(){
-      //   try {
-      //      // Update copy is running to replace app with the update
-      //     if ( updater.isSwapRequest() ) {
-      //       output.innerHTML += `\nSwapping...`;
-      //       await updater.swap();
-      //       output.innerHTML += `\nDone...`;
-      //       await updater.restart();
-      //       return;
-      //     }
-      //     // Download/unpack update if any available
-      //     const rManifest = await updater.readRemoteManifest();
-      //     console.log(rManifest)
-      //     const needsUpdate = await updater.checkNewVersion( rManifest );
-      //     if ( !needsUpdate ) {
-      //       output.innerHTML += `\n当前版本是最新版本...`;
-      //       return;
-      //     }
-      //     if ( !confirm( "检测到新版本，您需要升级吗?" ) ) {
-      //       return;
-      //     }
-      //     // Subscribe for progress events
-      //     updater.on( "download", ( downloadSize, totalSize ) => {
-      //       console.log( downloadSize, totalSize)
-      //       output.innerHTML = `下载中...`;
-      //       console.log( "下载进度 ", Math.floor( downloadSize / totalSize * 100 ), "%" );
-      //     });
-      //     updater.on( "install", ( installFiles, totalFiles ) => {
-      //       output.innerHTML = `安装中...${Math.floor( installFiles / totalFiles * 100 )}%\n`;
-      //       console.log( "安装进度 ", Math.floor( installFiles / totalFiles * 100 ), "%" );
-      //     });
-      //     const updateFile = await updater.download( rManifest );
-      //     await updater.unpack( updateFile );
-      //     alert( `完成安装后程序将会自动重启` );
-      //     await updater.restartToSwap( );
-      //   } catch ( e ) {
-      //     console.error( e );
-      //   }
-      // }
-      // output.innerHTML = `最新应用版本 ${nw.App.manifest.version}\n`;
-      // main();
-
       var output =  document.querySelector( "#output" );
       var gui = require('nw.gui'); //操作nw应用
       var updater = require('node-webkit-updater'); //热更新
@@ -209,7 +164,7 @@
         output.innerHTML = 
         upd.checkNewVersion(function(error, newVersionExists, manifest) {
           console.log(error, newVersionExists, manifest)
-          if (!error && newVersionExists) {
+          if (!error && newVersionExists && confirm('检测到新版本，您需要升级吗?')) {
             // 有新版本显示下载进度条开始下载
             console.log('有新版本显示下载进度条开始下载')
             output.innerHTML = '有新版本显示下载进度条开始下载'

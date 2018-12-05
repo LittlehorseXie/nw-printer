@@ -41,7 +41,7 @@ const Command = {
   GS_K               : (m, n) => [GS, 0x6B, m, n],  // GSKmn
   GS_v0              : (m) => [GS, 0x76, 0x30, m],  // GSv0m
   GS_w               : (n) => [GS, 0x77, n],        // GSwn
-  GS_W               : (m, n) => [GS, 0x57, m, n],        // GSwn
+  GS_W               : (m, n) => [GS, 0x57, m, n],  // GSwn
   GS_x               : (n) => [GS, 0x78, n],        // GSxn
   GS_V               : (m) => [GS, 0x56, m],        // 切纸 48全切 49六点半切
 

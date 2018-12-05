@@ -27,7 +27,7 @@ Buffer.prototype = {
      * @param {boolen} setText            写文字
      * @param {string} setTextDirection   设置文字布局
      * @param {number} setTextSize        设置字体大小
-     * @param {number} cut                切割
+     * @param {number} cut                留点切纸
      * @param {} getBuffer                获取字符
      */
   setThreeColText: function (l, m, r) {
