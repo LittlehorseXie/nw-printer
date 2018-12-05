@@ -1,3 +1,4 @@
+仅支持windows系统
 
 ## 1. 本地运行项目
 
@@ -53,7 +54,7 @@ npm run dist
 - 原因：`nwjs-autoupdater`可能对中文支持不友好
 - 解决：使用`node-webkit-updater`来自动更新
 
-#### 问题：官方例子中在执行到替换旧版本时会报错 `EBUSY: resource busy or locked`
+#### 问题：使用`node-webkit-updater`官方例子自动更新时，在执行到替换旧版本时会报错 `EBUSY: resource busy or locked`
 
 - 原因：在运行安装程序时的步骤4中, 它的 cwd 默认为当前进程的 cwd, 可能是旧应用程序的目录。所以, 无法删除、覆盖安装目标目录, 因为正在使用它。
 - 解决： var newAppDir = path.dirname(newAppPath)，再将upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()],{});改为upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()], {cwd: newAppDir} )
