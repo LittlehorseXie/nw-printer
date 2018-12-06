@@ -14,44 +14,20 @@
         width: 100%;
         background: #fff;
       }
+      p {
+        margin: 0 auto;
+      }
     </style>
   </head>
   <body>
     <pre id="output"></pre>
-    <iframe id="frame" width="100%" height="100%" frameborder="0" frameborder="0" src=""></iframe>
+    <p>windows系统打印小票</p>
     <script>
-      const win = nw.Window.get()
-      const frame = document.getElementById('frame')
-      frame.height = win.height
-      win.on('resize', function(){
-        frame.height = win.height
-      })
-
-      const domain = 'http://wmhubic.sf-express.com'
-      const pkgJson = require('./package.json')
-      frame.src = `${domain}/manage/login?url=/pages/merchant/list&version=${pkgJson.version}&isnw=1`
       
       const { mockData, getPrinterList, getPrinter, printOrderRecive } = require('./example.js')
-      // const list = getPrinterList()
-      // printOrderRecive(list[1], mockData)
-      
-      window.addEventListener('message', function(e) {
-        const data = JSON.parse(e.data)
-        if (data.type === 'printOrderRecive') {
-          console.log('printOrderRecive', data.name, data.data)
-          if (getPrinter(data.name)) {
-            console.log('打印小票成功')
-            printOrderRecive(data.name, data.data)
-          } else {
-            console.log('打印小票失败 找不到打印机')
-            frame.contentWindow.postMessage(JSON.stringify({type: 'errmsg', des: '打印机未连接'}), domain)
-          }
-        } else if (data.type === 'getPrinterList') {
-          console.log('getPrinterList')
-          const list = getPrinterList()
-          frame.contentWindow.postMessage(JSON.stringify({type: 'setPrinterList', list}), domain)
-        }
-      })
+      const list = getPrinterList()
+      printOrderRecive(list[1], mockData)
+
     </script>
     <script src="./auto-update.js"></script>
   </body>
