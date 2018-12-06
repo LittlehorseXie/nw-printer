@@ -54,7 +54,6 @@
   "dependencies": {
     "iconv-lite": "^0.4.24",
     "mutable-buffer": "^2.1.1",
-    "node-webkit-updater": "^0.3.3",
     "printer": "^0.2.2",
     "sprintf-js": "^1.1.1"
   }

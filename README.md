@@ -22,7 +22,6 @@ npm run dist
 ```
 |-- assets ------------- logo文件
 |-- node_modules ------- 依赖包，除了普通的npm install之外，对printer做了特殊处理
-|-- auto-update.js ----- 自动更新相关代码
 |-- command.js --------- esc/pos常用指令集
 |-- escpos.js ---------- 常用打印函数的封装
 |-- example.js --------- 调用打印小票样例
