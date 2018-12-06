@@ -1,14 +1,14 @@
-var Command = require('./command')
-var iconv = require('iconv-lite')
-var sprintf = require('sprintf-js').sprintf
-var MutableBuffer = require('mutable-buffer').MutableBuffer
-var middleCharLen = 22
+const Command = require('./command')
+const iconv = require('iconv-lite')
+const sprintf = require('sprintf-js').sprintf
+const MutableBuffer = require('mutable-buffer').MutableBuffer
+const middleCharLen = 22
 
 function getChnCount(str) {
   return str.replace(/[\u0391-\uFFE5]/g, 'aa').length - str.length
 }
 
-var Buffer = function() {
+const Buffer = function() {
   this._buf = new MutableBuffer()
   this._buf.write(Command.ESC_init)
 }
@@ -55,8 +55,8 @@ Buffer.prototype = {
       this.setThreeColText(first, second, third)
     } else {
       let charList = [2]
-      for (var i = 1; i < second.length; i++) {
-        var charCode = second.charCodeAt(i)
+      for (let i = 1; i < second.length; i++) {
+        const charCode = second.charCodeAt(i)
         if (charCode >= 0 && charCode <= 128) {
           charList.push(1 + charList[i - 1])
         } else {
@@ -64,7 +64,7 @@ Buffer.prototype = {
         }
       }
       let indexList = [0]
-      for (var i = 10; i < charList.length; i++) {
+      for (let i = 10; i < charList.length; i++) {
         if(charList[i] % 22 >= 0 && charList[i] % 22 < 2 && !(charList[i+1] && charList[i+1] % 22 >= 0 && charList[i+1] % 22 < 2)) {
           indexList.push(i)
         }

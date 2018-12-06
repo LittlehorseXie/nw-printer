@@ -21,25 +21,24 @@
     <iframe id="frame" width="100%" height="100%" frameborder="0" frameborder="0" src=""></iframe>
     <script src="./auto-update.js"></script>
     <script>
-      var win = nw.Window.get()
-      var frame = document.getElementById('frame')
+      const win = nw.Window.get()
+      const frame = document.getElementById('frame')
       frame.height = win.height
       win.on('resize', function(){
         frame.height = win.height
       })
 
-      var domain = 'http://wmhubic.sf-express.com'
-      var pkg = require('./package.json')
+      const domain = 'http://wmhubic.sf-express.com'
+      const pkg = require('./package.json')
       frame.src = `${domain}/manage/login?url=/pages/merchant/list&version=${pkg.version}&isnw=1`
 
       
-      var { mockData, getPrinterList, getPrinter, printOrderRecive } = require('./example.js')
-      console.log(mockData)
-
-      // printOrderRecive(getPrinterList[1], mockData)
+      const { mockData, getPrinterList, getPrinter, printOrderRecive } = require('./example.js')
+      const list = getPrinterList
+      printOrderRecive(list[1], mockData)
       
       window.addEventListener('message', function(e) {
-        var data = JSON.parse(e.data)
+        const data = JSON.parse(e.data)
         if (data.type === 'printOrderRecive') {
           console.log('printOrderRecive', data.name, data.data)
           if (getPrinter(data.name)) {
@@ -51,7 +50,7 @@
           }
         } else if (data.type === 'getPrinterList') {
           console.log('getPrinterList')
-          var list = getPrinterList()
+          const list = getPrinterList()
           frame.contentWindow.postMessage(JSON.stringify({type: 'setPrinterList', list}), domain)
         }
       })

@@ -1,6 +1,6 @@
-var printer = require('./printer.js')
+const printer = require('./printer.js')
 
-var mockData = {
+const mockData = {
   id: 001,
   delivery_way: '外送',
   deliver_time: '立即送达',
@@ -22,8 +22,8 @@ var mockData = {
 }
 
 function getPrinterList() {
-  var list = printer.getPrinterList()
-  var res = []
+  const list = printer.getPrinterList()
+  const res = []
   list.forEach(item => res.push(item.name))
   return res
 }
@@ -34,8 +34,8 @@ function getPrinter(name) {
 
 function printOrderRecive(name = '', data = {}) {
   console.log(name, data)
-  var Buffer = require('./escpos.js')
-  var buffer = new Buffer()
+  const Buffer = require('./escpos.js')
+  let buffer = new Buffer()
 
   buffer = buffer.setLineHeight(70)
     .setTextSize(2).setLineHeight(50).setText(data.id, 'center')

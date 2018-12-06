@@ -2,14 +2,14 @@
  * 自动更新
  */
 
-var output =  document.querySelector( "#output" )
-var gui = require('nw.gui') //操作nw应用
-var updater = require('node-webkit-updater') //热更新
-var pkg = require('./package.json')
-var upd = new updater(pkg)
-var copyPath, execPath
-var path = require('path')
-var progressTimer //设置一个定时器，用来模拟下载的进去条
+const output =  document.querySelector( "#output" )
+const gui = require('nw.gui') //操作nw应用
+const updater = require('node-webkit-updater') //热更新
+const pkg = require('./package.json')
+const upd = new updater(pkg)
+const copyPath, execPath
+const path = require('path')
+const progressTimer //设置一个定时器，用来模拟下载的进去条
 
 if (gui.App.argv.length) {
   copyPath = gui.App.argv[0]
@@ -38,7 +38,7 @@ if (gui.App.argv.length) {
       console.log('有新版本显示下载进度条开始下载')
       output.innerHTML = '有新版本显示下载进度条开始下载'
       setTimeout(function() {
-        var startC = parseInt(Math.floor(Math.random() + 1) * 3)
+        let startC = parseInt(Math.floor(Math.random() + 1) * 3)
         progressTimer = setInterval(function() {
           startC += Math.random() * 2
           if (startC >= 95) {
@@ -63,7 +63,7 @@ if (gui.App.argv.length) {
           upd.unpack(filename, function(error, newAppPath) {
             console.log(error, newAppPath)
             if (!error) {
-              var newAppDir = path.dirname(newAppPath)
+              const newAppDir = path.dirname(newAppPath)
               console.log('重启应用')
               output.innerHTML = '重启应用'
               console.log(newAppPath, [upd.getAppPath(), upd.getAppExec()])

@@ -1,6 +1,6 @@
 const ESC = 0x1B,
       FS  = 0x1C,
-      GS  = 0x1D,
+      GS  = 0x1D
 
 const Command = {
 

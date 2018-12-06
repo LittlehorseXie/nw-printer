@@ -58,7 +58,7 @@ npm run dist
 #### 问题：使用`node-webkit-updater`官方例子自动更新时，在执行到替换旧版本时会报错 `EBUSY: resource busy or locked`
 
 - 原因：在运行安装程序时的步骤4中, 它的 cwd 默认为当前进程的 cwd, 可能是旧应用程序的目录。所以, 无法删除、覆盖安装目标目录, 因为正在使用它。
-- 解决：在源代码中添加 var newAppDir = path.dirname(newAppPath)，再将 upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()],{}) 改为 upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()], {cwd: newAppDir} )
+- 解决：在源代码中添加 const newAppDir = path.dirname(newAppPath)，再将 upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()],{}) 改为 upd.runInstaller(newAppPath, [upd.getAppPath(), upd.getAppExec()], {cwd: newAppDir} )
 
 
 ### 3. `打印`相关
