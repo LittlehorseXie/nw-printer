@@ -32,20 +32,8 @@
       var pkg = require('./package.json')
       frame.src = `${domain}/manage/login?url=/pages/merchant/list&version=${pkg.version}&isnw=1`
 
-      var printer = require('./printer.js')
       
-      function getPrinterList() {
-        var list = printer.getPrinterList()
-        var res = []
-        list.forEach(item => res.push(item.name))
-        return res
-      }
-
-      function getPrinter(name) {
-        return printer.getPrinter(name)
-      }
-
-      var { mockData, printOrderRecive } = require('./example.js')
+      var { mockData, getPrinterList, getPrinter, printOrderRecive } = require('./example.js')
       console.log(mockData)
 
       // printOrderRecive(getPrinterList[1], mockData)

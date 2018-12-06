@@ -1,3 +1,4 @@
+var printer = require('./printer.js')
 
 var mockData = {
   id: 001,
@@ -18,6 +19,17 @@ var mockData = {
   receiver_phone: 00001,
   create_time: '0001-01-01',
   tagg_shop_name: '火星1号商店'
+}
+
+function getPrinterList() {
+  var list = printer.getPrinterList()
+  var res = []
+  list.forEach(item => res.push(item.name))
+  return res
+}
+
+function getPrinter(name) {
+  return printer.getPrinter(name)
 }
 
 function printOrderRecive(name = '', data = {}) {
@@ -61,5 +73,7 @@ function printOrderRecive(name = '', data = {}) {
 
 module.exports = {
   mockData,
+  getPrinterList,
+  getPrinter,
   printOrderRecive
 }

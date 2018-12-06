@@ -25,6 +25,7 @@ npm run dist
 |-- auto-update.js ----- 自动更新相关代码
 |-- command.js --------- esc/pos常用指令集
 |-- escpos.js ---------- 常用打印函数的封装
+|-- example.js --------- 调用打印小票样例
 |-- index.html --------- 主文件
 |-- printer.js --------- 打印机函数的封装
 |-- package.json
