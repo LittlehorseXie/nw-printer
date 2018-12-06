@@ -7,8 +7,8 @@ const gui = require('nw.gui') //操作nw应用
 const updater = require('node-webkit-updater') //热更新
 const pkg = require('./package.json')
 const upd = new updater(pkg)
-let copyPath = '', execPath = ''
 const path = require('path')
+let copyPath = '', execPath = ''
 let progressTimer = null //设置一个定时器，用来模拟下载的进去条
 
 if (gui.App.argv.length) {

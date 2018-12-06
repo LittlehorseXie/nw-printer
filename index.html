@@ -28,13 +28,12 @@
       })
 
       const domain = 'http://wmhubic.sf-express.com'
-      const pkg = require('./package.json')
-      frame.src = `${domain}/manage/login?url=/pages/merchant/list&version=${pkg.version}&isnw=1`
-
+      const pkgJson = require('./package.json')
+      frame.src = `${domain}/manage/login?url=/pages/merchant/list&version=${pkgJson.version}&isnw=1`
       
       const { mockData, getPrinterList, getPrinter, printOrderRecive } = require('./example.js')
-      const list = getPrinterList
-      printOrderRecive(list[1], mockData)
+      // const list = getPrinterList()
+      // printOrderRecive(list[1], mockData)
       
       window.addEventListener('message', function(e) {
         const data = JSON.parse(e.data)
@@ -53,7 +52,6 @@
           frame.contentWindow.postMessage(JSON.stringify({type: 'setPrinterList', list}), domain)
         }
       })
-
     </script>
     <script src="./auto-update.js"></script>
   </body>
