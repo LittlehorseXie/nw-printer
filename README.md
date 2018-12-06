@@ -17,8 +17,12 @@ npm start
 npm run dist
 ```
 
+## 3. 自动更新
 
-## 3. 目录结构
+需要在服务器上上传新的package.json和zip包
+
+
+## 4. 目录结构
 ```
 |-- assets ------------- logo文件
 |-- node_modules ------- 依赖包，除了普通的npm install之外，对printer做了特殊处理
@@ -31,7 +35,7 @@ npm run dist
 |-- package.json
 ```
 
-## 4. 整个项目遇到的难点、问题
+## 5. 整个项目遇到的难点、问题
 
 ### 1. `打包`相关
 使用`nwjs-builder-phoenix`
