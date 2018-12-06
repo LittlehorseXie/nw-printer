@@ -44,6 +44,11 @@
       function getPrinter(name) {
         return printer.getPrinter(name)
       }
+
+      var { mockData, printOrderRecive } = require('./example.js')
+      console.log(mockData)
+
+      // printOrderRecive(getPrinterList[1], mockData)
       
       window.addEventListener('message', function(e) {
         var data = JSON.parse(e.data)

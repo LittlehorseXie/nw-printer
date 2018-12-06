@@ -1,7 +1,23 @@
 
-var data = {
-  id: 190,
-
+var mockData = {
+  id: 001,
+  delivery_way: '外送',
+  deliver_time: '立即送达',
+  sku_detail: [{
+    quantity: 10,
+    sku_name: '火米饼套餐',
+    price: 20
+  }],
+  description: '多放火贝 火火火火',
+  invoiced: '',
+  package_fee: 1,
+  deliver_fee: 10,
+  total_price: 31,
+  receiver_address: '火星1区101路1号',
+  receiver_name: '火星人',
+  receiver_phone: 00001,
+  create_time: '0001-01-01',
+  tagg_shop_name: '火星1号商店'
 }
 
 function printOrderRecive(name = '', data = {}) {
@@ -43,4 +59,7 @@ function printOrderRecive(name = '', data = {}) {
     printer.print(name, buffer)
 }
 
-module.exports = printOrderRecive
+module.exports = {
+  mockData,
+  printOrderRecive
+}
